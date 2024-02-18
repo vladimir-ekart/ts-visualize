@@ -2,6 +2,8 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 
+import { initCanvasPanel } from "./helpers/canvasPanel";
+import Renderer from "./helpers/Renderer";
 import main from "./main";
 
 // This method is called when your extension is activated
@@ -19,13 +21,11 @@ export function activate(context: vscode.ExtensionContext) {
     // Display a message box to the user
     vscode.workspace.findFiles("**/*.ts", "**/node_modules/**").then((files) => {
       const paths = files.map((file) => file.fsPath);
-      const panel = vscode.window.createWebviewPanel("ts-visualize", "Dependency Graph", vscode.ViewColumn.One, {
-        enableScripts: true,
-      });
+      const panel = initCanvasPanel();
 
-      const updateHtml = (html: string) => (panel.webview.html = html);
+      const renderer = new Renderer(context, panel);
 
-      main({ paths, updateHtml });
+      main({ paths, renderer });
     });
 
     // vscode.window.showInformationMessage("Hello World from ts-visualize!");

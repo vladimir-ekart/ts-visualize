@@ -1,21 +1,18 @@
 import Controller from "./components/controller/Controller";
 import { analyze } from "./helpers/analyzer";
-import { getBaseHtmlTemplate } from "./helpers/baseHtmlTemplate";
+import Renderer from "./helpers/Renderer";
 
 interface Props {
   paths: string[];
-  updateHtml: (html: string) => void;
+  renderer: Renderer;
 }
 
-const main = ({ paths, updateHtml }: Props) => {
-  updateHtml(getBaseHtmlTemplate("<div>Building Dependency Graph</div>"));
-
+const main = ({ paths, renderer }: Props) => {
   const graph = analyze(paths);
 
-  const controller = new Controller(graph);
-  controller.render();
+  const controller = new Controller(graph, renderer);
 
-  updateHtml(getBaseHtmlTemplate("<div>Hello World</div>"));
+  controller.render();
 };
 
 export default main;
