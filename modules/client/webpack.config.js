@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 //@ts-check
 
 "use strict";
 
-const CopyPlugin = require("copy-webpack-plugin");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require("path");
 
 //@ts-check
@@ -14,7 +13,7 @@ const extensionConfig = {
   devtool: "nosources-source-map",
 
   // this leaves the source code as close as possible to the original (when packaging we set this to 'production')
-  entry: "./src/extension.ts",
+  entry: "./src/index.ts",
 
   externals: {
     vscode: "commonjs vscode", // the vscode-module is created on-the-fly and must be excluded. Add other modules that cannot be webpack'ed, 📖 -> https://webpack.js.org/configuration/externals/
@@ -44,23 +43,17 @@ const extensionConfig = {
 
   // the entry point of this extension, 📖 -> https://webpack.js.org/configuration/entry-context/
   output: {
-    filename: "extension.js",
+    filename: "index.js",
 
     libraryTarget: "commonjs2",
     // the bundle is stored in the 'dist' folder (check package.json), 📖 -> https://webpack.js.org/configuration/output/
     path: path.resolve(__dirname, "dist"),
   },
 
-  plugins: [
-    new CopyPlugin({
-      patterns: [{ from: "modules/client/dist/index.js", to: "modules/client/index.js" }],
-    }),
-  ],
-
   resolve: {
     // support reading TypeScript and JavaScript files, 📖 -> https://github.com/TypeStrong/ts-loader
     extensions: [".ts", ".js"],
   },
-  target: "node",
+  target: "web",
 };
 module.exports = [extensionConfig];

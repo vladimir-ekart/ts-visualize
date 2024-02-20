@@ -4,6 +4,22 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "Client Build",
+      "command": "yarn",
+      "args": ["compile"],
+			"isBackground": false,
+			"presentation": {
+				"reveal": "never",
+				"group": "watchers"
+			},
+			"group": {
+				"kind": "build",
+			},
+      "options": {
+        "cwd": "${workspaceFolder}/modules/client"
+      }
+		},
+		{
 			"type": "npm",
 			"script": "watch",
 			"problemMatcher": "$ts-webpack-watch",
@@ -15,7 +31,8 @@
 			"group": {
 				"kind": "build",
 				"isDefault": true
-			}
+			},
+			"dependsOn": ["Client Build"],
 		},
 		{
 			"type": "npm",

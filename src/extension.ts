@@ -2,9 +2,8 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 
+import { analyze } from "./helpers/analyzer";
 import { initCanvasPanel } from "./helpers/canvasPanel";
-import Renderer from "./helpers/Renderer";
-import main from "./main";
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -21,11 +20,15 @@ export function activate(context: vscode.ExtensionContext) {
     // Display a message box to the user
     vscode.workspace.findFiles("**/*.ts", "**/node_modules/**").then((files) => {
       const paths = files.map((file) => file.fsPath);
-      const panel = initCanvasPanel();
+      initCanvasPanel(context);
 
-      const renderer = new Renderer(context, panel);
+      const graph = analyze(paths);
 
-      main({ paths, renderer });
+      console.log(graph);
+
+      // const renderer = new Renderer(context, panel);
+
+      // main({ paths, renderer });
     });
 
     // vscode.window.showInformationMessage("Hello World from ts-visualize!");

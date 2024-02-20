@@ -1,14 +1,16 @@
-import * as vscode from "vscode";
+import vscode, { ExtensionContext } from "vscode";
 
-import { CANVAS_HTML_BODY } from "../templates/canvas";
-import { getBaseHtmlTemplate } from "../utils/getBaseHtmlTemplate";
+import { getHtml } from "../templates/html";
 
-export const initCanvasPanel = () => {
+export const initCanvasPanel = (context: ExtensionContext) => {
   const panel = vscode.window.createWebviewPanel("ts-visualize", "Dependency Graph", vscode.ViewColumn.One, {
     enableScripts: true,
+    localResourceRoots: [vscode.Uri.joinPath(context.extensionUri, "dist", "modules", "client")],
   });
 
-  panel.webview.html = getBaseHtmlTemplate(CANVAS_HTML_BODY);
+  const html = getHtml(context, panel);
+
+  panel.webview.html = html;
 
   return panel;
 };
