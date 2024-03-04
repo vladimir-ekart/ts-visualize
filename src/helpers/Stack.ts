@@ -1,4 +1,4 @@
-import Node from "../components/model/Node";
+import Node from "@ts-visualize/shared/components/model/Node";
 
 export default class Stack {
   private stack: Node[];

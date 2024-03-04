@@ -1,5 +1,6 @@
-import Node from "./Node";
-import { MetaArg } from "./Node/types";
+import Node from "../Node";
+import { MetaArg } from "../Node/types";
+import { SerializedGraph } from "./types";
 
 class Graph {
   public nodesMap: Map<string, Node>;
@@ -45,6 +46,21 @@ class Graph {
     });
 
     return Array.from(rootNodes);
+  };
+
+  public serialize = (): SerializedGraph => {
+    const nodes = Array.from(this.nodesMap.values()).map((node) => node.serialize());
+
+    return { nodes };
+  };
+
+  public deserialize = (serializedGraph: SerializedGraph) => {
+    const { nodes } = serializedGraph;
+
+    nodes.forEach((serializedNode) => {
+      const node = this.getOrCreateNode(serializedNode.id);
+      node.deserialize(serializedNode);
+    });
   };
 }
 

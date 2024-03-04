@@ -1,69 +1,40 @@
+import Graph from "@ts-visualize/shared/components/model/Graph";
+import { COMMAND, RenderMessage } from "@ts-visualize/shared/constants/client";
 import * as PIXI from "pixi.js";
 
-const app = new PIXI.Application({ background: "#1099bb", resizeTo: window });
+import Controller from "./components/controller/Controller";
+import ExtensionClient from "./helpers/ExtensionClient";
+import Renderer from "./helpers/Renderer";
+import { VSCode } from "./types";
 
-//@ts-ignore
-document.body.appendChild(app.view);
+declare const acquireVsCodeApi: () => VSCode;
 
-const basicText = new PIXI.Text("Basic text in pixi");
+const vscode = acquireVsCodeApi();
 
-basicText.x = 50;
-basicText.y = 100;
+const client = new ExtensionClient(vscode);
 
-app.stage.addChild(basicText);
+client.sendReady();
 
-const style = new PIXI.TextStyle({
-  dropShadow: true,
-  dropShadowAngle: Math.PI / 6,
-  dropShadowBlur: 4,
-  dropShadowColor: "#000000",
-  dropShadowDistance: 6,
-  fill: ["#ffffff", "#00ff99"],
+const main = async () => {
+  const graph = await getGraph();
 
-  fontFamily: "Arial",
+  const app = new PIXI.Application({ background: "#1099bb", resizeTo: window });
+  document.body.appendChild(app.view as unknown as Node);
 
-  fontSize: 36,
+  const renderer = new Renderer(PIXI, app);
 
-  fontStyle: "italic",
+  const controller = new Controller(graph, renderer);
 
-  fontWeight: "bold",
+  controller.render();
+};
 
-  lineJoin: "round",
-  // gradient
-  stroke: "#4a1850",
-  strokeThickness: 5,
-  wordWrap: true,
-  wordWrapWidth: 440,
-});
+const getGraph = (): Promise<Graph> =>
+  new Promise((resolve) => {
+    client.submitToEvent<RenderMessage>(COMMAND.RENDER, (payload) => {
+      const graph = new Graph();
+      graph.deserialize(payload.serializedGraph);
+      resolve(graph);
+    });
+  });
 
-const richText = new PIXI.Text("Rich text with a lot of options and across multiple lines", style);
-
-richText.x = 50;
-richText.y = 220;
-
-app.stage.addChild(richText);
-
-const skewStyle = new PIXI.TextStyle({
-  dropShadow: true,
-  dropShadowAlpha: 0.8,
-  dropShadowAngle: 2.1,
-  dropShadowBlur: 4,
-  dropShadowColor: "0x111111",
-  dropShadowDistance: 10,
-  fill: ["#ffffff"],
-  fontFamily: "Arial",
-  fontSize: 60,
-  fontWeight: "lighter",
-  lineJoin: "round",
-  stroke: "#004620",
-  strokeThickness: 12,
-});
-
-const skewText = new PIXI.Text("SKEW IS COOL", skewStyle);
-
-skewText.skew.set(0.65, -0.3);
-skewText.anchor.set(0.5, 0.5);
-skewText.x = 300;
-skewText.y = 480;
-
-app.stage.addChild(skewText);
+main();

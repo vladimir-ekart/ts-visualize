@@ -18,6 +18,9 @@
     "skipLibCheck": true,
     "baseUrl": "src",
     "esModuleInterop": true,
+    "paths": {
+      "@ts-visualize/shared/*": ["../../shared/src/*"]
+    }
   },
   "include": [
     "./src"

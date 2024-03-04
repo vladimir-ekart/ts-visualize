@@ -51,6 +51,9 @@ const extensionConfig = {
   },
 
   resolve: {
+    alias: {
+      "@ts-visualize/shared": path.resolve(__dirname, "../shared/src/"),
+    },
     // support reading TypeScript and JavaScript files, 📖 -> https://github.com/TypeStrong/ts-loader
     extensions: [".ts", ".js"],
   },

@@ -1,5 +1,6 @@
+import Graph from "@ts-visualize/shared/components/model/Graph";
+
 import Renderer from "../../helpers/Renderer";
-import Graph from "../model/Graph";
 import House from "../view/House";
 import Node from "../view/Node";
 
@@ -13,8 +14,11 @@ class Controller {
   }
 
   public render = () => {
-    new House(this.renderer).render();
-    new Node(50, 50, 100, 100, "red", this.renderer).render();
+    const house = new House(this.renderer);
+    const node = new Node(50, 50, 100, 100, "red", this.renderer);
+
+    house.render();
+    node.render();
   };
 }
 

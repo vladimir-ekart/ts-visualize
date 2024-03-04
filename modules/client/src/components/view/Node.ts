@@ -19,7 +19,11 @@ export default class Node implements View {
   }
 
   public render = () => {
-    this.renderer.setFillStyle(this.color);
-    this.renderer.fillRect(this.x, this.y, this.width, this.height);
+    const basicText = new this.renderer.pixi.Text("Basic text in pixi");
+
+    basicText.x = 50;
+    basicText.y = 100;
+
+    this.renderer.app.stage.addChild(basicText);
   };
 }

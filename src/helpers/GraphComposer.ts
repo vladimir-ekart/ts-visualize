@@ -1,8 +1,8 @@
+import Graph from "@ts-visualize/shared/components/model/Graph";
+import Node from "@ts-visualize/shared/components/model/Node";
 import path from "path";
 import ts from "typescript";
 
-import Graph from "../components/model/Graph";
-import Node from "../components/model/Node";
 import { generateNodeId } from "../utils/generateNodeId";
 import Stack from "./Stack";
 import Visitor from "./Visitor";

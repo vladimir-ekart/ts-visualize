@@ -3,7 +3,8 @@
 import * as vscode from "vscode";
 
 import { analyze } from "./helpers/analyzer";
-import { initCanvasPanel } from "./helpers/canvasPanel";
+import { initCanvas } from "./helpers/canvas";
+import WebviewClient from "./helpers/WebviewClient";
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -20,15 +21,18 @@ export function activate(context: vscode.ExtensionContext) {
     // Display a message box to the user
     vscode.workspace.findFiles("**/*.ts", "**/node_modules/**").then((files) => {
       const paths = files.map((file) => file.fsPath);
-      initCanvasPanel(context);
+      const panel = vscode.window.createWebviewPanel("ts-visualize", "Dependency Graph", vscode.ViewColumn.One, {
+        enableScripts: true,
+        localResourceRoots: [vscode.Uri.joinPath(context.extensionUri, "dist", "modules", "client")],
+      });
+      const client = new WebviewClient(context, panel);
 
-      const graph = analyze(paths);
+      initCanvas(context, panel, client).then(() => {
+        const graph = analyze(paths);
+        const serializedGraph = graph.serialize();
 
-      console.log(graph);
-
-      // const renderer = new Renderer(context, panel);
-
-      // main({ paths, renderer });
+        client.sendRender({ serializedGraph });
+      });
     });
 
     // vscode.window.showInformationMessage("Hello World from ts-visualize!");
