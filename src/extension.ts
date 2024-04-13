@@ -23,7 +23,7 @@ export function activate(context: vscode.ExtensionContext) {
       const paths = files.map((file) => file.fsPath);
       const panel = vscode.window.createWebviewPanel("ts-visualize", "Dependency Graph", vscode.ViewColumn.One, {
         enableScripts: true,
-        localResourceRoots: [vscode.Uri.joinPath(context.extensionUri, "dist", "modules", "client")],
+        localResourceRoots: [vscode.Uri.joinPath(context.extensionUri, "modules", "client", "dist")],
       });
       const client = new WebviewClient(context, panel);
 

@@ -30,7 +30,7 @@ const main = async () => {
 
 const getGraph = (): Promise<Graph> =>
   new Promise((resolve) => {
-    client.submitToEvent<RenderMessage>(COMMAND.RENDER, (payload) => {
+    client.subscribeToEvent<RenderMessage>(COMMAND.RENDER, (payload) => {
       const graph = new Graph();
       graph.deserialize(payload.serializedGraph);
       resolve(graph);

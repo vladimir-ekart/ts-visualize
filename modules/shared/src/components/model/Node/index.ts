@@ -23,13 +23,13 @@ class Node {
     parents: this.parents.map((node) => node.id),
   });
 
-  public deserialize = (serializedNode: SerializedNode) => {
+  public deserialize = (serializedNode: SerializedNode, getNode: (id: string) => Node) => {
     const { id, meta, neighbors, parents } = serializedNode;
 
     this.id = id;
     this.meta = meta;
-    this.neighbors = neighbors.map((id) => new Node(id));
-    this.parents = parents.map((id) => new Node(id));
+    this.neighbors = neighbors.map((id) => getNode(id));
+    this.parents = parents.map((id) => getNode(id));
   };
 }
 

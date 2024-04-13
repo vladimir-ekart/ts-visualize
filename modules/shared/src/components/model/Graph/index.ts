@@ -59,7 +59,7 @@ class Graph {
 
     nodes.forEach((serializedNode) => {
       const node = this.getOrCreateNode(serializedNode.id);
-      node.deserialize(serializedNode);
+      node.deserialize(serializedNode, this.getOrCreateNode);
     });
   };
 }

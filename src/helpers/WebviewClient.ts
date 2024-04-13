@@ -16,7 +16,7 @@ export default class WebviewClient {
     this.panel.webview.postMessage({ command: COMMAND.RENDER, payload });
   };
 
-  public submitToEvent = (command: COMMAND, callback: () => void) => {
+  public subscribeToEvent = (command: COMMAND, callback: () => void) => {
     switch (command) {
       case COMMAND.READY:
         this.onReady = callback;

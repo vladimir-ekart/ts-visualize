@@ -15,7 +15,7 @@ export default class ExtensionClient {
     this.vscode.postMessage({ command: COMMAND.READY });
   };
 
-  public submitToEvent = <T extends Message>(command: T["command"], callback: (payload: T["payload"]) => void) => {
+  public subscribeToEvent = <T extends Message>(command: T["command"], callback: (payload: T["payload"]) => void) => {
     switch (command) {
       case COMMAND.RENDER:
         this.onRender = callback;

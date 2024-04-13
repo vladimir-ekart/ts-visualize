@@ -10,7 +10,7 @@ import Visitor from "./Visitor";
 export default class GraphComposer extends Visitor {
   protected graph: Graph;
   protected currentFileName = "global";
-  protected currentNodeStack: Stack;
+  protected currentNodeStack: Stack<Node>;
   protected currentImports: Map<string, string>;
 
   constructor() {

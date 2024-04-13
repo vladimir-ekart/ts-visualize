@@ -1,13 +1,11 @@
-import Node from "@ts-visualize/shared/components/model/Node";
+export default class Stack<T> {
+  private stack: T[];
 
-export default class Stack {
-  private stack: Node[];
-
-  constructor(node?: Node) {
-    this.stack = node ? [node] : [];
+  constructor(item?: T) {
+    this.stack = item ? [item] : [];
   }
 
-  public push = (node: Node) => this.stack.push(node);
+  public push = (item: T) => this.stack.push(item);
   public pop = () => this.stack.pop();
-  public getLast = (): Node | undefined => this.stack[this.stack.length - 1];
+  public getLast = (): T | undefined => this.stack[this.stack.length - 1];
 }

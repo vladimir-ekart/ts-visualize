@@ -8,9 +8,7 @@ export const initCanvas = (context: ExtensionContext, panel: WebviewPanel, clien
   const html = getHtml(context, panel);
 
   return new Promise((resolve) => {
-    client.submitToEvent(COMMAND.READY, () => {
-      resolve(true);
-    });
+    client.subscribeToEvent(COMMAND.READY, () => resolve(true));
 
     panel.webview.html = html;
   });
