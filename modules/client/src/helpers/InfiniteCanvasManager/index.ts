@@ -1,26 +1,63 @@
-// import Renderer from "helpers/Renderer";
-// import { Container } from "pixi.js";
+import { Application, Container } from "pixi.js";
 
-// // import CanvasStore from "./CanvasStore";
+import CanvasStore from "./Store";
 
-// export default class InfiniteCanvasManager {
-//   private renderer: Renderer;
-//   private store: CanvasStore;
+export default class CanvasManager {
+  private app: Application;
+  private container: Container;
 
-//   constructor(renderer: Renderer, store: CanvasStore) {
-//     this.renderer = renderer;
-//     this.store = store;
-//   }
+  private canvasStore: CanvasStore;
 
-//   public attach = (canvas: Container) => {
-//     const { app } = this.renderer;
-//     const store = this.store;
+  constructor(app: Application, container: Container) {
+    this.app = app;
+    this.container = container;
 
-//     app.ticker.add(() => {
-//       const { x, y } = store.getScreen();
-//       const scale = store.getScale();
-//       canvas.position.set(-scale.x * x, -scale.y * y);
-//       canvas.scale.set(scale.x, scale.y);
-//     });
-//   };
-// }
+    this.canvasStore = new CanvasStore(window.innerWidth, window.innerHeight);
+  }
+
+  private attach = (root: HTMLElement) => {
+    this.app.ticker.add(() => {
+      const { x, y } = this.canvasStore.getProjectionState();
+      const scale = this.canvasStore.getProjectionScale();
+      this.container.position.set(-scale.x * x, -scale.y * y);
+      this.container.scale.set(scale.x, scale.y);
+    });
+
+    root.addEventListener("mousewheel", this.wheelListener, { passive: false });
+    root.addEventListener("pointermove", this.pointerListener, { passive: true });
+  };
+
+  private detach = (root: HTMLElement) => {
+    root.removeEventListener("mousewheel", this.wheelListener);
+    root.removeEventListener("pointermove", this.pointerListener);
+  };
+
+  render = () => {
+    this.attach(document.body);
+
+    window.onload = () => {
+      this.attach(document.body);
+    };
+
+    window.onbeforeunload = () => {
+      this.detach(document.body);
+    };
+  };
+
+  private wheelListener = (e: Event) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const event = e as WheelEvent;
+
+    if (!event.ctrlKey) {
+      this.canvasStore.moveCamera(event.deltaX, event.deltaY);
+    } else {
+      this.canvasStore.zoomCamera(event.deltaY);
+    }
+  };
+
+  private pointerListener = (e: PointerEvent) => {
+    this.canvasStore.movePointer(e.offsetX, e.offsetY);
+  };
+}

@@ -38,6 +38,6 @@ export default class House implements View {
     richText.x = 50;
     richText.y = 220;
 
-    this.renderer.app.stage.addChild(richText);
+    this.renderer.container.addChild(richText);
   };
 }

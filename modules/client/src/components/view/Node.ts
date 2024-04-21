@@ -24,6 +24,6 @@ export default class Node implements View {
     basicText.x = 50;
     basicText.y = 100;
 
-    this.renderer.app.stage.addChild(basicText);
+    this.renderer.container.addChild(basicText);
   };
 }
