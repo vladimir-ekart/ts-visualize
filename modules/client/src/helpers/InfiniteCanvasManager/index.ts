@@ -32,7 +32,7 @@ export default class CanvasManager {
     root.removeEventListener("pointermove", this.pointerListener);
   };
 
-  render = () => {
+  public start = () => {
     this.attach(document.body);
 
     window.onload = () => {

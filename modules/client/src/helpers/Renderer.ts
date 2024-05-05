@@ -1,18 +1,16 @@
 import { Application, Container, ICanvas } from "pixi.js";
 
-type PIXI = typeof import("pixi.js");
+import CanvasManager from "./InfiniteCanvasManager";
 
 export default class Renderer {
-  public pixi: PIXI;
   public app: Application<ICanvas>;
   public container: Container;
 
-  constructor(pixi: PIXI) {
-    this.pixi = pixi;
-    this.app = new pixi.Application({
+  constructor() {
+    this.app = new Application({
       antialias: true,
       autoDensity: true,
-      backgroundColor: "red",
+      backgroundColor: "292a2f",
       height: window.innerHeight,
       resolution: 2,
       width: window.innerWidth,
@@ -23,5 +21,8 @@ export default class Renderer {
     this.container = new Container();
 
     this.app.stage.addChild(this.container);
+
+    const canvasManager = new CanvasManager(this.app, this.container);
+    canvasManager.start();
   }
 }

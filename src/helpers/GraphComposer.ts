@@ -16,7 +16,7 @@ export default class GraphComposer extends Visitor {
   constructor() {
     super();
     this.graph = new Graph();
-    this.currentNodeStack = new Stack(new Node("global"));
+    this.currentNodeStack = new Stack();
     this.currentImports = new Map();
   }
 
@@ -67,8 +67,8 @@ export default class GraphComposer extends Visitor {
       const graphNode = this.graph.getOrCreateNode(id);
       const parentNode = this.currentNodeStack.getLast();
 
-      if (parentNode && !parentNode.neighbors.includes(graphNode)) {
-        parentNode?.neighbors.push(graphNode);
+      if (parentNode && !parentNode.children.includes(graphNode)) {
+        parentNode?.children.push(graphNode);
         graphNode.parents.push(parentNode);
       }
     }

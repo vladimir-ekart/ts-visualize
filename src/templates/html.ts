@@ -6,9 +6,14 @@ export const getHtml = (context: ExtensionContext, panel: WebviewPanel) => {
   const rendererScriptUri = panel.webview.asWebviewUri(rendererPath);
 
   return `
-    <!doctype html>
-    <html>
-      <body>
+    <!DOCTYPE html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dependency Graph</title>
+      </head>
+      <body style="overflow:hidden">
         <script src="${rendererScriptUri}"></script>
       </body>
     </html>

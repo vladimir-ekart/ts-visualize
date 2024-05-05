@@ -7,7 +7,7 @@ export type MetaArg = Omit<Meta, "name"> & { name?: Meta["name"] };
 
 export interface SerializedNode {
   id: string;
-  neighbors: string[];
+  children: string[];
   parents: string[];
   meta?: Meta;
 }
