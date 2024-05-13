@@ -13,7 +13,7 @@ export const getHtml = (context: ExtensionContext, panel: WebviewPanel) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dependency Graph</title>
       </head>
-      <body style="overflow:hidden">
+      <body style="overflow:hidden;padding:0px">
         <script src="${rendererScriptUri}"></script>
       </body>
     </html>

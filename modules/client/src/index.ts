@@ -17,7 +17,7 @@ const main = async () => {
   const graph = await getGraph(client);
 
   const renderer = new Renderer();
-  const layoutManager = new LayoutManager(graph, { levelHeight: 200, nodeWidth: 120 });
+  const layoutManager = new LayoutManager(graph, { levelHeight: 300, nodeWidth: 310 });
   const controller = new Controller(graph, renderer, layoutManager);
 
   controller.render();

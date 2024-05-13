@@ -12,7 +12,7 @@ export default class Renderer {
       autoDensity: true,
       backgroundColor: "292a2f",
       height: window.innerHeight,
-      resolution: 2,
+      resolution: 3,
       width: window.innerWidth,
     });
 

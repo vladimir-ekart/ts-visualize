@@ -12,7 +12,7 @@ export default class CanvasStore {
     const initialCameraState = config?.camera || {
       x: containerWidth / 2,
       y: containerHeight / 2,
-      z: 1000 / (2 * Math.tan(CAMERA_ANGLE)),
+      z: 800 / (2 * Math.tan(CAMERA_ANGLE)),
     };
 
     this.state = {

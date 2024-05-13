@@ -23,8 +23,6 @@ export default class LayoutManager {
   private layout = () => {
     const tree = this.setup(this.graph.getRootNodes()[0]);
     this.addMods(tree);
-
-    console.log("Layout graph", this.layoutGraph);
   };
 
   private addMods = (tree: LayoutNode, mod = 0) => {

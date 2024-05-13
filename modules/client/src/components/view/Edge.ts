@@ -21,7 +21,7 @@ export default class Edge implements View {
   public render = () => {
     const line = new Graphics();
 
-    line.lineStyle(2, "black", 1);
+    line.lineStyle(1, "C0C0C0", 1);
     line.moveTo(this.x1, this.y1);
     line.lineTo(this.x2, this.y2);
 

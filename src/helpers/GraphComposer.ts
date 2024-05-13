@@ -1,5 +1,6 @@
 import Graph from "@ts-visualize/shared/components/model/Graph";
 import Node from "@ts-visualize/shared/components/model/Node";
+import { NodeType } from "@ts-visualize/shared/components/model/Node/types";
 import path from "path";
 import ts from "typescript";
 
@@ -33,7 +34,7 @@ export default class GraphComposer extends Visitor {
   visitFunctionDeclaration(node: ts.FunctionDeclaration): void {
     const name = node.name?.text;
     const id = generateNodeId({ fileName: this.currentFileName, name });
-    const graphNode = this.graph.updateOrCreateNode(id, { fileName: this.currentFileName, name });
+    const graphNode = this.graph.updateOrCreateNode(id, { fileName: this.currentFileName, name, type: NodeType.FUNCTION });
 
     this.currentNodeStack.push(graphNode);
     node.forEachChild((child) => this.visit(child));
@@ -46,7 +47,7 @@ export default class GraphComposer extends Visitor {
     if (isArrowFunction) {
       const name = node.name.escapedText.toString();
       const id = generateNodeId({ fileName: this.currentFileName, name });
-      const graphNode = this.graph.updateOrCreateNode(id, { fileName: this.currentFileName, name });
+      const graphNode = this.graph.updateOrCreateNode(id, { fileName: this.currentFileName, name, type: NodeType.ARROW_FUNCTION });
 
       this.currentNodeStack.push(graphNode);
     }
