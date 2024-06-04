@@ -1,13 +1,13 @@
 /**
  * Calculates the projection coordinates and size based on the camera position and angle
  * @param camera Position and angle of the camera
- * @param screen Aspect ratio of the screen (expected projection)
+ * @param projection Aspect ratio of the projection
  * @returns The projection coordinates and size
  */
-export const cameraToProjectionState = (camera: { x: number; y: number; z: number; angle: number }, screen: { aspect: number }) => {
+export const cameraToProjectionState = (camera: { x: number; y: number; z: number; angle: number }, projection: { aspect: number }) => {
   // Based on: Tan(θ) = (projectionWidth / 2) / z
   const projectionWidth = 2 * camera.z * Math.tan(camera.angle);
-  const projectionHeight = projectionWidth / screen.aspect;
+  const projectionHeight = projectionWidth / projection.aspect;
 
   // Calculate projection coordinates based on camera position and projection size
   const projectionX = camera.x - projectionWidth / 2;

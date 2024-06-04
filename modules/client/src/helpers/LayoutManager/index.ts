@@ -60,7 +60,10 @@ export default class LayoutManager {
       }
     });
 
-    layoutNode.x = (right?.x ?? 0) / 2;
+    const leftX = layoutNode.children[0]?.x ?? 0;
+    const rightX = right?.x ?? 0;
+
+    layoutNode.x = leftX + (rightX - leftX) / 2;
 
     return layoutNode;
   };

@@ -16,6 +16,7 @@ export default class CanvasStore {
     };
 
     this.state = {
+      // Camera is relative to the container
       camera: initialCameraState,
       container: {
         height: containerWidth,
@@ -71,22 +72,26 @@ export default class CanvasStore {
     this.state.camera.y += deltaY;
 
     // Move pointer with the camera
-    this.movePointer(deltaY, deltaY);
+    this.movePointer({ deltaX, deltaY, relative: true });
   };
 
-  /**
-   * Moves the pointer based on the provided deltas relative to the projection scale
-   * (pointer is relative to the container not the projection)
-   * @param deltaX The delta x
-   * @param deltaY The delta y
-   */
-  public movePointer = (deltaX: number, deltaY: number) => {
+  public movePointer(input: { deltaX: number; deltaY: number; relative: true }): void;
+  public movePointer(input: { offsetX: number; offsetY: number; relative?: false }): void;
+  public movePointer(
+    input: { deltaX: number; deltaY: number; relative: true } | { offsetX: number; offsetY: number; relative?: false }
+  ): void {
     const { x: projectionScaleX, y: projectionScaleY } = this.getProjectionScale();
     const { x: projectionX, y: projectionY } = this.getProjectionState();
 
-    this.state.pointer.x = projectionX + deltaX / projectionScaleX;
-    this.state.pointer.y = projectionY + deltaY / projectionScaleY;
-  };
+    if (input.relative) {
+      this.state.pointer.x += input.deltaX;
+      this.state.pointer.y += input.deltaY;
+      return;
+    }
+
+    this.state.pointer.x = projectionX + input.offsetX / projectionScaleX;
+    this.state.pointer.y = projectionY + input.offsetY / projectionScaleY;
+  }
 
   /**
    * Zooms the camera based on the provided delta

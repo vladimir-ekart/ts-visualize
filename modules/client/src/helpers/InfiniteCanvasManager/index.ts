@@ -58,6 +58,6 @@ export default class CanvasManager {
   };
 
   private pointerListener = (e: PointerEvent) => {
-    this.canvasStore.movePointer(e.offsetX, e.offsetY);
+    this.canvasStore.movePointer({ offsetX: e.offsetX, offsetY: e.offsetY });
   };
 }
