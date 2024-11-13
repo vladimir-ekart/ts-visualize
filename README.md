@@ -1,3 +1,7 @@
+# Goal of this project
+
+This project focuses on the development of an extension for Visual Studio Code that visualizes the relationships between functions in programs written in the TypeScript programming language. The main goal of this is to create a tool that enables developers to efficiently analyze and understand the structure of their code.
+
 # ts-visualize README
 
 This is the README for your extension "ts-visualize". After writing up a brief description, we recommend including the following sections.
